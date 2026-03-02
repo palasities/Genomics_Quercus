@@ -50,3 +50,16 @@ fastq_Qilex_ilex='/mnt/home/users/forescent_001_upm/jpallares/fscratch/ICIFOR/Ba
 
 
 minimap2 -t 50 -x map-ont "$Index_minimap/Organelles.mmi" "$fastq_Qilex_ilex" > organelle_map_Qilexilex.paf
+
+##after minimap2 run:
+
+awk '{
+  qlen=$2;
+  qspan=($4-$3);          # span sobre la read
+  aln=$11;                # aligned block length
+  ident=$10/$11;          # identity aprox
+  mapq=$12;
+
+  if(ident>=0.95 && mapq>=30 && (aln>=5000 || qspan/qlen>=0.80)) print $1
+}' organelle_map_Qilexilex.paf | sort -u > organelle.reads_5k_MAPQ30_identity95.ids
+
