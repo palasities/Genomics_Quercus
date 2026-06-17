@@ -1,0 +1,11 @@
+awk '{
+  if ($2==0) L++;
+  else if ($3==$4) R++;
+  else I++;
+}
+END {
+  print "LEFT telomeres:", L+0;
+  print "RIGHT telomeres:", R+0;
+  print "INTERNAL hits:", I+0;
+  print "TOTAL:", L+R+I;
+}' "telomeres_CCCTAAA.bed"
